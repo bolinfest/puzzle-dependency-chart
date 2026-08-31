@@ -151,6 +151,100 @@ select:focus-visible,
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
 }
 
+.mode-switch button:disabled {
+  cursor: wait;
+}
+
+.draft-available-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #edc96f;
+  box-shadow: 0 0 0 2px rgba(237, 201, 111, 0.18);
+}
+
+.draft-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.draft-actions > button,
+.draft-reset-control > button {
+  display: flex;
+  height: 32px;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 5px;
+  padding: 0 8px;
+  color: #d5dddf;
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 650;
+}
+
+.draft-actions > button:hover,
+.draft-reset-control > button:hover {
+  color: #fffdf7;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.draft-reset-control {
+  position: relative;
+}
+
+.draft-reset-confirmation {
+  position: absolute;
+  z-index: 30;
+  top: 39px;
+  right: 0;
+  width: 290px;
+  border: 1px solid #c9917f;
+  border-radius: 6px;
+  padding: 12px;
+  color: var(--ink);
+  background: #fffaf7;
+  box-shadow: 0 8px 24px rgba(21, 31, 35, 0.28);
+}
+
+.draft-reset-confirmation strong {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.86rem;
+}
+
+.draft-reset-confirmation p {
+  margin: 6px 0 11px;
+  color: #6f625d;
+  font-size: 0.69rem;
+  line-height: 1.45;
+}
+
+.draft-reset-confirmation > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.draft-reset-confirmation button {
+  border: 1px solid #c6c8c3;
+  border-radius: 4px;
+  padding: 5px 8px;
+  color: var(--ink);
+  background: #fffef9;
+  cursor: pointer;
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.draft-reset-confirmation button.confirm-reset-button {
+  border-color: #a85d43;
+  color: #fff;
+  background: #9a4c33;
+}
+
 .save-indicator,
 .view-only-badge {
   min-width: 76px;
@@ -166,6 +260,21 @@ select:focus-visible,
 
 .save-indicator.is-error {
   color: #f2b6a0;
+}
+
+.draft-error-banner {
+  display: flex;
+  min-height: 31px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-bottom: 1px solid #d69b85;
+  padding: 6px 14px;
+  color: #763b28;
+  background: #fff1ea;
+  font-size: 0.74rem;
+  font-weight: 650;
 }
 
 .workspace {

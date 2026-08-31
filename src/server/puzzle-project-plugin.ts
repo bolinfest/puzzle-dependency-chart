@@ -138,11 +138,23 @@ export function puzzleProjectPlugin(projectRoot: string): Plugin {
                 documents,
               );
             }
+            if (body.documents !== undefined) {
+              await Promise.all(
+                Object.entries(documents).map(([documentPath, markdown]) =>
+                  savePuzzleDocument(projectRoot, documentPath, markdown),
+                ),
+              );
+              result.documents = Object.keys(documents);
+            }
             if (body.layout !== undefined) {
               result.layout = await saveGraphLayout(projectRoot, body.layout);
             }
-            if (body.graph === undefined && body.layout === undefined) {
-              throw new Error("A graph or layout update is required.");
+            if (
+              body.graph === undefined &&
+              body.layout === undefined &&
+              body.documents === undefined
+            ) {
+              throw new Error("A graph, layout, or document update is required.");
             }
             sendJson(response, 200, result);
             return;

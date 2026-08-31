@@ -37,7 +37,9 @@ npm run build -- /path/to/my-puzzle-chart
 npm run preview
 ```
 
-The output in `dist/` contains the chart, documents, and layout as a static site. It has no edit toggle and makes no write requests. Because Vite uses a relative base path, the output can be hosted at a domain root or a nested path.
+The output in `dist/` contains the chart, documents, and layout as a static site. **Published** mode is the read-only source-controlled version. **Local draft** mode enables the full editor and autosaves a complete project snapshot in IndexedDB, scoped to that browser and published path. It never writes to the repository or a remote server.
+
+Use **Export** to download the draft as a ZIP containing `graph.yaml`, `layout.json`, and the Markdown document tree. Use **Reset** to delete the browser-local draft and start again from the published version; reset requires confirmation and does not affect repository files. Because Vite uses a relative base path, the site can be hosted at a domain root or a nested path.
 
 ## Publish the hosted example
 
@@ -49,7 +51,17 @@ npm run build:pages
 
 The repository's `Publish puzzle chart to GitHub Pages` workflow runs that command and deploys `dist/` whenever `main` is pushed, or when the workflow is started manually from GitHub's Actions page. Before its first deployment, set **Settings → Pages → Build and deployment → Source** to **GitHub Actions**.
 
-The hosted build is deliberately view-only. It has no server capable of writing `graph.yaml`, `layout.json`, or Markdown back to the repository. A future browser-local draft mode should be labeled separately, store its project snapshot in IndexedDB, and provide an explicit way to export those changes back to source-controlled files.
+The hosted build has no server capable of writing `graph.yaml`, `layout.json`, or Markdown back to the repository. Its Local draft mode is explicitly browser-only; export its ZIP and copy or merge those files into a checkout before committing them.
+
+## Project storage adapters
+
+The React application performs loading and saving through the `ProjectStore` interface instead of calling a particular persistence API directly. The current adapters are:
+
+- a writable development-server store whose HTTP endpoint writes the project folder;
+- a read-only published store that loads embedded `project-data.json`;
+- a browser-local draft store backed by IndexedDB.
+
+A desktop filesystem integration or collaborative server should implement the same boundary. A collaborative adapter may later add revisions, conflict handling, authorship, and server-side Git checkpointing without coupling those concerns to React Flow or MDXEditor. Git commits should generally represent meaningful checkpoints rather than individual keystrokes.
 
 ## Input format
 

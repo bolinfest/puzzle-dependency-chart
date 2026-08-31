@@ -1,6 +1,6 @@
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { parse, stringify as stringifyYaml } from "yaml";
+import { parse } from "yaml";
 import {
   parseGraph,
   parseLayout,
@@ -8,6 +8,10 @@ import {
   type PuzzleGraph,
   type PuzzleProject,
 } from "../lib/project-types.ts";
+import {
+  serializeGraphYaml,
+  serializeLayoutJson,
+} from "../lib/project-serialization.ts";
 import { hydrateGraphTodoEffects } from "../lib/todo-markdown.ts";
 
 function resolveProjectPath(root: string, relativePath: string): string {
@@ -103,13 +107,9 @@ export async function savePuzzleGraph(
     }
   }
 
-  const graphForStorage = {
-    ...graph,
-    nodes: graph.nodes.map(({ todo: _derivedTodo, ...node }) => node),
-  };
   await atomicWrite(
     path.join(root, "graph.yaml"),
-    stringifyYaml(graphForStorage, { lineWidth: 0 }),
+    serializeGraphYaml(graph),
   );
   return graph;
 }
@@ -121,7 +121,7 @@ export async function saveGraphLayout(
   const layout = parseLayout(value);
   await atomicWrite(
     path.join(root, "layout.json"),
-    `${JSON.stringify(layout, null, 2)}\n`,
+    serializeLayoutJson(layout),
   );
   return layout;
 }

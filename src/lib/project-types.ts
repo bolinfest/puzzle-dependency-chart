@@ -87,6 +87,26 @@ function requireString(value: unknown, label: string): string {
   return value;
 }
 
+export function validateProjectDocumentPath(
+  value: unknown,
+  label = "Puzzle document",
+): string {
+  const documentPath = requireString(value, label);
+  const segments = documentPath.split("/");
+  if (
+    documentPath.startsWith("/") ||
+    /^[a-zA-Z]:/.test(documentPath) ||
+    documentPath.includes("\\") ||
+    segments.some((segment) => segment === "" || segment === "." || segment === "..")
+  ) {
+    throw new Error(`${label} must be a normalized relative path.`);
+  }
+  if (!documentPath.toLowerCase().endsWith(".md")) {
+    throw new Error(`${label} must be a .md file.`);
+  }
+  return documentPath;
+}
+
 export function parseGraph(value: unknown): PuzzleGraph {
   const source = requireObject(value, "graph.yaml");
   if (source.version !== 1) {
@@ -144,7 +164,10 @@ export function parseGraph(value: unknown): PuzzleGraph {
     return {
       id: requireString(node.id, `nodes[${index}].id`),
       title: requireString(node.title, `nodes[${index}].title`),
-      document: requireString(node.document, `nodes[${index}].document`),
+      document: validateProjectDocumentPath(
+        node.document,
+        `nodes[${index}].document`,
+      ),
       kind: kind as PuzzleKind,
       ...(typeof node.summary === "string" ? { summary: node.summary } : {}),
       ...(node.status === "tbd" ? { status: "tbd" as const } : {}),

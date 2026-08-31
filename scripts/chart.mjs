@@ -19,5 +19,5 @@ if (command === "dev") {
   server.printUrls();
 } else {
   await build();
-  console.log(`Built a view-only chart from ${process.env.PUZZLE_CHART_DIR}`);
+  console.log(`Built a published chart from ${process.env.PUZZLE_CHART_DIR}`);
 }

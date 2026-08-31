@@ -19,13 +19,20 @@ This repository is a TypeScript/React prototype for authoring and publishing poi
 ## Runtime modes
 
 - Local development is an authoring environment. Vite provides TypeScript compilation and hot-module reloading, while the custom development endpoint reads the selected project folder and writes Markdown/layout changes back to disk.
-- Production output is a static, view-only site. The build embeds a read-only `project-data.json`; it must not expose file-writing endpoints or an edit-mode affordance.
+- Production output is a static site whose **Published** mode loads read-only `project-data.json`. Its distinct **Local draft** mode exposes the editor, autosaves the complete project in IndexedDB, and must never imply that it changed the published site or repository.
 - `.github/workflows/pages.yml` publishes the Clockwork Lighthouse example to GitHub Pages from `main`, and `npm run build:pages` must reproduce its artifact locally. Keep the Pages artifact compatible with a repository subpath.
-- Do not present browser-local edits as ordinary saved source changes. If a published editing capability is added, label it as a separate local-draft mode, persist the complete project in IndexedDB, and provide an explicit export path back to the source-controlled files.
+- Local draft mode must export a ZIP containing source-compatible `graph.yaml`, `layout.json`, and Markdown paths. Reset requires confirmation, deletes only the browser draft, and restores the published baseline.
 - `npm run dev -- <project-folder>` and `npm run build -- <project-folder>` select the input. Both default to `examples/fox-chicken-grain` when omitted.
 - Markdown autosaves after a short debounce. Semantic graph fields commit on blur or discrete control actions. Node positions, edge routes, and viewport changes save to `layout.json`.
 - Graph/layout writes must remain serialized in user-action order. Undo performed while an earlier save is pending must be the last state written to disk.
 - Structural graph changes in the UI rewrite `graph.yaml` through the YAML serializer. Keep the result readable and stable, but do not rely on hand-authored YAML comments surviving a UI edit.
+
+## Persistence boundary
+
+- React UI components must not depend directly on HTTP endpoints, IndexedDB, Node filesystem APIs, Tauri APIs, or collaboration services. Loading and saving go through the `ProjectStore` interface in `src/lib/project-store.ts`.
+- A store receives both the complete current project snapshot and the mutation that caused the save. Snapshot-oriented stores such as IndexedDB may persist the former; patch-oriented or collaborative stores may transmit the latter.
+- Current stores are the writable development HTTP store, read-only published-data store, and IndexedDB local-draft store. A future desktop filesystem store or collaborative/server store should implement this boundary rather than forking editor behavior.
+- Filesystem containment, validation, conflict/version handling, authorship, and Git checkpoint policy belong in the relevant store or backend. Collaborative backends should not create a Git commit for every keystroke; prefer explicit or safely batched checkpoints.
 
 ## Graph and editor behavior
 
