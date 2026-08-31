@@ -39,6 +39,18 @@ npm run preview
 
 The output in `dist/` contains the chart, documents, and layout as a static site. It has no edit toggle and makes no write requests. Because Vite uses a relative base path, the output can be hosted at a domain root or a nested path.
 
+## Publish the hosted example
+
+The GitHub Pages build publishes the Clockwork Lighthouse example:
+
+```bash
+npm run build:pages
+```
+
+The repository's `Publish puzzle chart to GitHub Pages` workflow runs that command and deploys `dist/` whenever `main` is pushed, or when the workflow is started manually from GitHub's Actions page. Before its first deployment, set **Settings → Pages → Build and deployment → Source** to **GitHub Actions**.
+
+The hosted build is deliberately view-only. It has no server capable of writing `graph.yaml`, `layout.json`, or Markdown back to the repository. A future browser-local draft mode should be labeled separately, store its project snapshot in IndexedDB, and provide an explicit way to export those changes back to source-controlled files.
+
 ## Input format
 
 Every input folder contains `graph.yaml` and `layout.json` at its root. Markdown files may live anywhere beneath that folder; `docs/` is the default convention.
@@ -126,6 +138,7 @@ Paths are always relative to the project folder and cannot escape it. The loader
 ```bash
 npm run dev -- [project-folder]    # TypeScript app + HMR + local writes
 npm run build -- [project-folder]  # Static view-only site
+npm run build:pages                # Build the hosted Clockwork Lighthouse example
 npm run preview                    # Serve the most recent dist/ build
 npm run typecheck
 npm test

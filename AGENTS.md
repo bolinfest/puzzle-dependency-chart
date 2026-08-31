@@ -20,6 +20,8 @@ This repository is a TypeScript/React prototype for authoring and publishing poi
 
 - Local development is an authoring environment. Vite provides TypeScript compilation and hot-module reloading, while the custom development endpoint reads the selected project folder and writes Markdown/layout changes back to disk.
 - Production output is a static, view-only site. The build embeds a read-only `project-data.json`; it must not expose file-writing endpoints or an edit-mode affordance.
+- `.github/workflows/pages.yml` publishes the Clockwork Lighthouse example to GitHub Pages from `main`, and `npm run build:pages` must reproduce its artifact locally. Keep the Pages artifact compatible with a repository subpath.
+- Do not present browser-local edits as ordinary saved source changes. If a published editing capability is added, label it as a separate local-draft mode, persist the complete project in IndexedDB, and provide an explicit export path back to the source-controlled files.
 - `npm run dev -- <project-folder>` and `npm run build -- <project-folder>` select the input. Both default to `examples/fox-chicken-grain` when omitted.
 - Markdown autosaves after a short debounce. Semantic graph fields commit on blur or discrete control actions. Node positions, edge routes, and viewport changes save to `layout.json`.
 - Graph/layout writes must remain serialized in user-action order. Undo performed while an earlier save is pending must be the last state written to disk.
