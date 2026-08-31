@@ -1,0 +1,170 @@
+version: 1
+title: The Clockwork Lighthouse
+description: An original point-and-click puzzle network with four parallel repair branches and state-changing conversations.
+nodes:
+  - id: meet-keeper
+    title: Meet the lighthouse keeper
+    document: docs/meet-keeper.md
+    kind: conversation
+    summary: Learn that the dark beacon needs fuel, a lens, working gears, and the correct signal.
+  - id: inspect-empty-tank
+    title: Inspect the empty fuel tank
+    document: docs/inspect-empty-tank.md
+    kind: insight
+    summary: The lamp reservoir is sound, but completely dry.
+  - id: talk-to-ferryman
+    title: Ask the ferryman about lamp oil
+    document: docs/talk-to-ferryman.md
+    kind: conversation
+    summary: He will trade his spare oil for a compass lost near the tide pools.
+  - id: recover-compass
+    title: Recover the brass compass
+    document: docs/recover-compass.md
+    kind: move
+    summary: Use the tide table to search the exposed pools at low water.
+  - id: trade-for-oil
+    title: Trade the compass for lamp oil
+    document: docs/trade-for-oil.md
+    kind: conversation
+    summary: Return the heirloom and receive a sealed can of whale-oil substitute.
+  - id: fill-reservoir
+    title: Fill the lamp reservoir
+    document: docs/fill-reservoir.md
+    kind: move
+    summary: Restore fuel flow to the lighthouse burner.
+  - id: inspect-broken-lens
+    title: Inspect the shattered lens
+    document: docs/inspect-broken-lens.md
+    kind: insight
+    summary: One curved panel is missing from the Fresnel assembly.
+  - id: find-glass-blank
+    title: Find a glass blank
+    document: docs/find-glass-blank.md
+    kind: move
+    summary: Salvage thick optical glass from the abandoned weather station.
+  - id: shape-replacement-lens
+    title: Shape a replacement lens
+    document: docs/shape-replacement-lens.md
+    kind: move
+    summary: The exact cutting and polishing interaction still needs design work.
+    status: tbd
+  - id: install-lens
+    title: Install the replacement lens
+    document: docs/install-lens.md
+    kind: move
+    summary: Seat the new panel and align it with the lamp focus.
+  - id: inspect-clockwork
+    title: Inspect the seized clockwork
+    document: docs/inspect-clockwork.md
+    kind: insight
+    summary: Salt has frozen the rotation gear and one tooth is bent.
+  - id: collect-penetrating-oil
+    title: Mix penetrating oil
+    document: docs/collect-penetrating-oil.md
+    kind: move
+    summary: Combine kerosene and machine oil found around the harbor workshop.
+  - id: repair-clockwork
+    title: Repair the rotation clockwork
+    document: docs/repair-clockwork.md
+    kind: move
+    summary: Free the axle, straighten the tooth, and restart the escapement.
+  - id: interview-signaler
+    title: Interview the retired signaler
+    document: docs/interview-signaler.md
+    kind: conversation
+    summary: A newly unlocked topic reveals where the old flash log was hidden.
+  - id: decode-logbook
+    title: Decode the flash logbook
+    document: docs/decode-logbook.md
+    kind: insight
+    summary: Cross-reference tide marks with the keeper's shorthand.
+  - id: set-flash-sequence
+    title: Set the warning sequence
+    document: docs/set-flash-sequence.md
+    kind: move
+    summary: Configure the shutter cam for the harbor's danger signal.
+  - id: assemble-beacon
+    title: Assemble and prime the beacon
+    document: docs/assemble-beacon.md
+    kind: move
+    summary: Bring the four completed repair branches together in the lamp room.
+  - id: relight-beacon
+    title: Relight the lighthouse beacon
+    document: docs/relight-beacon.md
+    kind: goal
+    summary: Test the rotating warning signal before the night ferry arrives.
+edges:
+  - id: keeper-to-tank
+    from: meet-keeper
+    to: inspect-empty-tank
+    label: identifies fuel problem
+  - id: keeper-to-ferryman
+    from: meet-keeper
+    to: talk-to-ferryman
+    label: unlocks oil topic
+  - id: tank-to-ferryman
+    from: inspect-empty-tank
+    to: talk-to-ferryman
+    label: establishes need
+  - id: ferryman-to-compass
+    from: talk-to-ferryman
+    to: recover-compass
+  - id: compass-to-trade
+    from: recover-compass
+    to: trade-for-oil
+  - id: trade-to-fill
+    from: trade-for-oil
+    to: fill-reservoir
+  - id: keeper-to-lens
+    from: meet-keeper
+    to: inspect-broken-lens
+    label: identifies optical problem
+  - id: lens-to-glass
+    from: inspect-broken-lens
+    to: find-glass-blank
+  - id: glass-to-shape
+    from: find-glass-blank
+    to: shape-replacement-lens
+  - id: shape-to-install
+    from: shape-replacement-lens
+    to: install-lens
+  - id: keeper-to-clockwork
+    from: meet-keeper
+    to: inspect-clockwork
+    label: identifies mechanical problem
+  - id: clockwork-to-oil
+    from: inspect-clockwork
+    to: collect-penetrating-oil
+  - id: clockwork-to-repair
+    from: inspect-clockwork
+    to: repair-clockwork
+    label: reveals bent tooth
+  - id: oil-to-repair
+    from: collect-penetrating-oil
+    to: repair-clockwork
+    label: frees axle
+  - id: keeper-to-signaler
+    from: meet-keeper
+    to: interview-signaler
+    label: unlocks beacon topic
+  - id: signaler-to-logbook
+    from: interview-signaler
+    to: decode-logbook
+  - id: logbook-to-sequence
+    from: decode-logbook
+    to: set-flash-sequence
+  - id: fuel-to-assembly
+    from: fill-reservoir
+    to: assemble-beacon
+  - id: lens-to-assembly
+    from: install-lens
+    to: assemble-beacon
+  - id: clockwork-to-assembly
+    from: repair-clockwork
+    to: assemble-beacon
+  - id: sequence-to-assembly
+    from: set-flash-sequence
+    to: assemble-beacon
+  - id: assembly-to-goal
+    from: assemble-beacon
+    to: relight-beacon

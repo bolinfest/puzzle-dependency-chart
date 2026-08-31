@@ -1,0 +1,168 @@
+{
+  "nodes": {
+    "meet-keeper": {
+      "x": 497.11123030211786,
+      "y": -561.0470102028717
+    },
+    "inspect-empty-tank": {
+      "x": -56.04779114174058,
+      "y": -95.5738516786303
+    },
+    "talk-to-ferryman": {
+      "x": 53.18449068003224,
+      "y": 279.48295730493146
+    },
+    "recover-compass": {
+      "x": 35.95123716915715,
+      "y": 488.15156414273156
+    },
+    "trade-for-oil": {
+      "x": 17.23462577666396,
+      "y": 692.2209200250604
+    },
+    "fill-reservoir": {
+      "x": 52.4820788530466,
+      "y": 860.7258064516129
+    },
+    "inspect-broken-lens": {
+      "x": 340,
+      "y": 210
+    },
+    "find-glass-blank": {
+      "x": 340,
+      "y": 395
+    },
+    "shape-replacement-lens": {
+      "x": 340,
+      "y": 580
+    },
+    "install-lens": {
+      "x": 336.63978494623666,
+      "y": 769.9999999999999
+    },
+    "inspect-clockwork": {
+      "x": 734.6651040300725,
+      "y": 34.398736818162675
+    },
+    "collect-penetrating-oil": {
+      "x": 581.1868346349235,
+      "y": 270.25067548315866
+    },
+    "repair-clockwork": {
+      "x": 716.6901715783885,
+      "y": 684.2733990765834
+    },
+    "interview-signaler": {
+      "x": 980,
+      "y": 210
+    },
+    "decode-logbook": {
+      "x": 980,
+      "y": 490
+    },
+    "set-flash-sequence": {
+      "x": 980,
+      "y": 770
+    },
+    "assemble-beacon": {
+      "x": 520.1612903225806,
+      "y": 990
+    },
+    "relight-beacon": {
+      "x": 500,
+      "y": 1170
+    }
+  },
+  "edges": {
+    "keeper-to-tank": {
+      "type": "bezier",
+      "curvature": 0.32,
+      "borderRadius": 18,
+      "offset": 24
+    },
+    "keeper-to-ferryman": {
+      "type": "bezier",
+      "curvature": 0.4
+    },
+    "tank-to-ferryman": {
+      "type": "straight"
+    },
+    "ferryman-to-compass": {
+      "type": "straight"
+    },
+    "compass-to-trade": {
+      "type": "straight"
+    },
+    "trade-to-fill": {
+      "type": "straight"
+    },
+    "keeper-to-lens": {
+      "type": "smoothstep",
+      "borderRadius": 18,
+      "offset": 24
+    },
+    "lens-to-glass": {
+      "type": "straight"
+    },
+    "glass-to-shape": {
+      "type": "straight"
+    },
+    "shape-to-install": {
+      "type": "straight"
+    },
+    "keeper-to-clockwork": {
+      "type": "smoothstep",
+      "borderRadius": 18,
+      "offset": 24
+    },
+    "clockwork-to-oil": {
+      "type": "straight"
+    },
+    "clockwork-to-repair": {
+      "type": "bezier",
+      "curvature": 0.35
+    },
+    "oil-to-repair": {
+      "type": "straight"
+    },
+    "keeper-to-signaler": {
+      "type": "smoothstep",
+      "borderRadius": 18,
+      "offset": 24
+    },
+    "signaler-to-logbook": {
+      "type": "straight"
+    },
+    "logbook-to-sequence": {
+      "type": "straight"
+    },
+    "fuel-to-assembly": {
+      "type": "smoothstep",
+      "borderRadius": 18,
+      "offset": 24
+    },
+    "lens-to-assembly": {
+      "type": "smoothstep",
+      "borderRadius": 18,
+      "offset": 24
+    },
+    "clockwork-to-assembly": {
+      "type": "smoothstep",
+      "borderRadius": 18,
+      "offset": 24
+    },
+    "sequence-to-assembly": {
+      "type": "smoothstep",
+      "borderRadius": 18,
+      "offset": 24
+    },
+    "assembly-to-goal": {
+      "type": "straight"
+    }
+  },
+  "viewport": {
+    "x": 323.1121426835841,
+    "y": 406.59724604891267,
+    "zoom": 0.6213333993578573
+  }
+}

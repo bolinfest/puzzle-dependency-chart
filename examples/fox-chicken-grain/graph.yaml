@@ -1,0 +1,103 @@
+version: 1
+title: The Fox, Chicken & Grain
+description: Get everyone across the river without leaving an unsafe pair unattended.
+
+nodes:
+  - id: boat-capacity
+    title: The boat carries one passenger
+    document: docs/rules/boat-capacity.md
+    kind: constraint
+    summary: The farmer can row with exactly one of the three passengers.
+
+  - id: dangerous-pairs
+    title: Two pairs cannot be left alone
+    document: docs/rules/dangerous-pairs.md
+    kind: constraint
+    summary: The fox threatens the chicken, and the chicken threatens the grain.
+
+  - id: take-chicken-first
+    title: The chicken must go first
+    document: docs/solution/take-chicken-first.md
+    kind: insight
+    summary: Either other passenger would leave a dangerous pair behind.
+
+  - id: return-alone-one
+    title: Return alone
+    document: docs/solution/return-alone-one.md
+    kind: move
+    summary: Leave the chicken safely on the east bank.
+
+  - id: take-fox
+    title: Take the fox across
+    document: docs/solution/take-fox.md
+    kind: move
+    summary: The grain can safely remain on the west bank.
+
+  - id: bring-chicken-back
+    title: Bring the chicken back
+    document: docs/solution/bring-chicken-back.md
+    kind: move
+    summary: Do not leave the fox and chicken together.
+
+  - id: take-grain
+    title: Take the grain across
+    document: docs/solution/take-grain.md
+    kind: move
+    summary: The fox and grain make a safe pair on the east bank.
+
+  - id: return-alone-two
+    title: Return alone again
+    document: docs/solution/return-alone-two.md
+    kind: move
+    summary: Go back for the only passenger still waiting.
+
+  - id: take-chicken-final
+    title: Take the chicken across
+    document: docs/solution/take-chicken-final.md
+    kind: move
+    summary: Complete the last river crossing.
+
+  - id: all-safe
+    title: Everyone reaches the east bank
+    document: notes/all-safe.md
+    kind: goal
+    summary: Fox, chicken, and grain all arrive safely.
+
+edges:
+  - id: capacity-to-first
+    from: boat-capacity
+    to: take-chicken-first
+    label: limits each trip
+
+  - id: danger-to-first
+    from: dangerous-pairs
+    to: take-chicken-first
+    label: rules out fox or grain
+
+  - id: first-to-return
+    from: take-chicken-first
+    to: return-alone-one
+
+  - id: return-to-fox
+    from: return-alone-one
+    to: take-fox
+
+  - id: fox-to-chicken-back
+    from: take-fox
+    to: bring-chicken-back
+
+  - id: chicken-back-to-grain
+    from: bring-chicken-back
+    to: take-grain
+
+  - id: grain-to-return
+    from: take-grain
+    to: return-alone-two
+
+  - id: return-to-chicken-final
+    from: return-alone-two
+    to: take-chicken-final
+
+  - id: chicken-final-to-goal
+    from: take-chicken-final
+    to: all-safe

@@ -1,0 +1,84 @@
+{
+  "nodes": {
+    "boat-capacity": {
+      "x": 20,
+      "y": 20
+    },
+    "dangerous-pairs": {
+      "x": 360,
+      "y": 20
+    },
+    "take-chicken-first": {
+      "x": 190,
+      "y": 190
+    },
+    "return-alone-one": {
+      "x": 190,
+      "y": 350
+    },
+    "take-fox": {
+      "x": 190,
+      "y": 510
+    },
+    "bring-chicken-back": {
+      "x": 190,
+      "y": 670
+    },
+    "take-grain": {
+      "x": 190,
+      "y": 830
+    },
+    "return-alone-two": {
+      "x": 190,
+      "y": 990
+    },
+    "take-chicken-final": {
+      "x": 190,
+      "y": 1150
+    },
+    "all-safe": {
+      "x": 190,
+      "y": 1310
+    }
+  },
+  "edges": {
+    "capacity-to-first": {
+      "type": "smoothstep",
+      "borderRadius": 18,
+      "offset": 24
+    },
+    "danger-to-first": {
+      "type": "smoothstep",
+      "borderRadius": 18,
+      "offset": 24
+    },
+    "first-to-return": {
+      "type": "straight"
+    },
+    "return-to-fox": {
+      "type": "bezier",
+      "curvature": 0.32
+    },
+    "fox-to-chicken-back": {
+      "type": "straight"
+    },
+    "chicken-back-to-grain": {
+      "type": "bezier",
+      "curvature": 0.32
+    },
+    "grain-to-return": {
+      "type": "straight"
+    },
+    "return-to-chicken-final": {
+      "type": "straight"
+    },
+    "chicken-final-to-goal": {
+      "type": "straight"
+    }
+  },
+  "viewport": {
+    "x": 78,
+    "y": 32,
+    "zoom": 0.72
+  }
+}
