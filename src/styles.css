@@ -816,6 +816,20 @@ select:focus-visible,
   line-height: 1.35;
 }
 
+.graph-inspector input:read-only,
+.graph-inspector select:disabled,
+.graph-inspector textarea:read-only {
+  color: #4f5d56;
+  background: #f4f5f0;
+  cursor: default;
+  opacity: 1;
+}
+
+.graph-inspector .status-toggle:has(input:disabled) {
+  cursor: default;
+  opacity: 0.86;
+}
+
 .inspector-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

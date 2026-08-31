@@ -486,9 +486,10 @@ export function GraphPane({
           collapsed={inspectorCollapsed}
           onToggle={() => setInspectorCollapsedState(!inspectorCollapsed)}
         />
-      ) : editable && selectedNode ? (
+      ) : selectedNode ? (
         <NodeInspector
           node={selectedNode}
+          editable={editable}
           onUpdate={(patch, label) =>
             updateNode(selectedNode.id, patch, label)
           }
@@ -503,6 +504,7 @@ export function GraphPane({
 
 interface NodeInspectorProps {
   node: PuzzleNodeDefinition;
+  editable: boolean;
   onUpdate: (patch: Partial<PuzzleNodeDefinition>, label: string) => void;
   onDelete: () => void;
   collapsed: boolean;
@@ -511,6 +513,7 @@ interface NodeInspectorProps {
 
 function NodeInspector({
   node,
+  editable,
   onUpdate,
   onDelete,
   collapsed,
@@ -542,22 +545,26 @@ function NodeInspector({
             <span className="eyebrow">Selected node</span>
             <code>{node.id}</code>
           </div>
-          <div className="inspector-header-actions">
-            <ConfirmDeleteButton
-              triggerLabel={`Delete ${node.title}`}
-              title={`Delete “${node.title}”?`}
-              message="The node and its dependencies will be removed from the chart. Its Markdown file will be kept."
-              confirmLabel="Delete node"
-              onConfirm={onDelete}
-            />
-          </div>
+          {editable ? (
+            <div className="inspector-header-actions">
+              <ConfirmDeleteButton
+                triggerLabel={`Delete ${node.title}`}
+                title={`Delete “${node.title}”?`}
+                message="The node and its dependencies will be removed from the chart. Its Markdown file will be kept."
+                confirmLabel="Delete node"
+                onConfirm={onDelete}
+              />
+            </div>
+          ) : null}
         </header>
         <label>
           <span>Title</span>
           <input
             key={`${node.id}:title:${node.title}`}
             defaultValue={node.title}
+            readOnly={!editable}
             onBlur={(event) => {
+              if (!editable) return;
               const title = event.currentTarget.value.trim();
               if (title) onUpdate({ title }, "Rename node");
               else event.currentTarget.value = node.title;
@@ -569,12 +576,14 @@ function NodeInspector({
             <span>Type</span>
             <select
               value={node.kind}
-              onChange={(event) =>
+              disabled={!editable}
+              onChange={(event) => {
+                if (!editable) return;
                 onUpdate(
                   { kind: event.target.value as PuzzleKind },
                   "Change node type",
-                )
-              }
+                );
+              }}
             >
               {puzzleKinds.map((kind) => (
                 <option key={kind} value={kind}>
@@ -587,12 +596,14 @@ function NodeInspector({
             <input
               type="checkbox"
               checked={node.status === "tbd"}
-              onChange={(event) =>
+              disabled={!editable}
+              onChange={(event) => {
+                if (!editable) return;
                 onUpdate(
                   { status: event.target.checked ? "tbd" : undefined },
                   event.target.checked ? "Mark node TBD" : "Mark node designed",
-                )
-              }
+                );
+              }}
             />
             <span>Design is TBD</span>
           </label>
@@ -602,8 +613,10 @@ function NodeInspector({
           <input
             key={`${node.id}:document:${node.document}`}
             defaultValue={node.document}
+            readOnly={!editable}
             spellCheck={false}
             onBlur={(event) => {
+              if (!editable) return;
               const document = event.currentTarget.value.trim();
               if (document.endsWith(".md")) {
                 onUpdate({ document }, "Change document path");
@@ -617,18 +630,21 @@ function NodeInspector({
           <textarea
             key={`${node.id}:summary:${node.summary ?? ""}`}
             defaultValue={node.summary}
+            readOnly={!editable}
             rows={2}
-            onBlur={(event) =>
+            onBlur={(event) => {
+              if (!editable) return;
               onUpdate(
                 { summary: event.currentTarget.value.trim() || undefined },
                 "Edit node summary",
-              )
-            }
+              );
+            }}
           />
         </label>
         <p className="todo-markdown-hint">
-          TODO effects live in a source-only comment and are edited beside the
-          node&apos;s puzzle notes.
+          {editable
+            ? "TODO effects live in a source-only comment and are edited beside the node’s puzzle notes."
+            : "TODO effects are stored with the puzzle notes and shown above their rendered Markdown."}
         </p>
       </div> : null}
     </aside>
